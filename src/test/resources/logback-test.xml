@@ -41,6 +41,11 @@
     </triggeringPolicy>
   </appender>
 
+  <logger name="com.github.mmichaelis.testcontainers" additivity="false" level="${config.test.log.level}">
+    <appender-ref ref="stdout"/>
+    <appender-ref ref="file"/>
+  </logger>
+
   <logger name="com.github.dockerjava" additivity="false" level="${config.sut.log.level}">
     <appender-ref ref="stdout"/>
     <appender-ref ref="file"/>
