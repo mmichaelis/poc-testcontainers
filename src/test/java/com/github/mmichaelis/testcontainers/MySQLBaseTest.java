@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -24,9 +25,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 @DefaultAnnotation(NonNull.class)
 class MySQLBaseTest {
   private static final Logger LOG = getLogger(lookup().lookupClass());
+  private static final Logger MYSQL_LOG = getLogger("mysql");
 
   @Container
-  private static final MySQLContainer MY_SQL_CONTAINER = new MySQLContainer();
+  private static final MySQLContainer MY_SQL_CONTAINER = (MySQLContainer) new MySQLContainer().withLogConsumer(new Slf4jLogConsumer(MYSQL_LOG));
   private static Properties jdbcProperties;
 
   @BeforeAll

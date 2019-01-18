@@ -51,6 +51,11 @@
     <appender-ref ref="file"/>
   </logger>
 
+  <!-- Artificial logger for MySQL database. -->
+  <logger name="mysql" additivity="false" level="${config.sut.log.level}">
+    <appender-ref ref="file"/>
+  </logger>
+
   <logger name="org.testcontainers" additivity="false" level="${config.sut.log.level}">
     <appender-ref ref="stdout"/>
     <appender-ref ref="file"/>
