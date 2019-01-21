@@ -57,7 +57,7 @@
   </logger>
 
   <!-- Artificial logger for Wordpress. -->
-  <logger name="wordpress_main" additivity="false" level="${config.sut.log.level}">
+  <logger name="wordpress" additivity="false" level="${config.sut.log.level}">
     <appender-ref ref="file"/>
   </logger>
 

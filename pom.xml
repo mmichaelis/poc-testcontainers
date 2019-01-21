@@ -13,7 +13,6 @@
     <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
-    <maven.compiler.release>${jdk.version}</maven.compiler.release>
     <maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
@@ -44,11 +43,15 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>3.11.1</version>
-        <type>bundle</type>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
+        <version>${dep.version.junit-jupiter}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
         <version>${dep.version.junit-jupiter}</version>
       </dependency>
       <dependency>
@@ -94,11 +97,17 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <type>bundle</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- Required by Maven Surefire Plugin to detect JUnit 5 Tests. -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -127,37 +136,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>1.17.0</version>
-          <configuration>
-            <java>
-              <googleJavaFormat>
-                <version>1.6</version>
-                <style>GOOGLE</style>
-              </googleJavaFormat>
-              <removeUnusedImports />
-              <importOrder>
-                <order>java,javax,org,com,net,</order>
-              </importOrder>
-            </java>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.github.ekryd.sortpom</groupId>
-          <artifactId>sortpom-maven-plugin</artifactId>
-          <version>2.10.0</version>
-          <configuration>
-            <encoding>${project.build.sourceEncoding}</encoding>
-            <sortDependencies>groupId,artifactId</sortDependencies>
-            <sortPlugins>groupId,artifactId</sortPlugins>
-            <sortModules>true</sortModules>
-            <expandEmptyElements>false</expandEmptyElements>
-            <keepBlankLines>true</keepBlankLines>
-            <nrOfIndentSpace>2</nrOfIndentSpace>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.7.0</version>
@@ -170,97 +148,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.21.0</version>
+          <version>3.0.0-M3</version>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.10</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependency-updates-report</report>
-              <report>plugin-updates-report</report>
-              <report>property-updates-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <profiles>
-    <profile>
-      <!-- Format all code in this project. Use mvn verify -Pformat. Compilation will be skipped. -->
-      <id>format</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.diffplug.spotless</groupId>
-            <artifactId>spotless-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>apply</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>com.github.ekryd.sortpom</groupId>
-            <artifactId>sortpom-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sort</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      <properties>
-        <maven.main.skip>true</maven.main.skip>
-        <maven.test.skip>true</maven.test.skip>
-      </properties>
-    </profile>
-    <profile>
-      <!-- Runs several analysis goals -->
-      <id>analyze</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>verify</phase>
-                <goals>
-                  <goal>analyze</goal>
-                  <goal>analyze-dep-mgt</goal>
-                  <goal>analyze-duplicate</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      <properties>
-        <maven.test.skip>true</maven.test.skip>
-      </properties>
-    </profile>
-  </profiles>
 </project>
