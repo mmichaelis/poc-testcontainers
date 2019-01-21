@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.mmichaelis</groupId>
-  <artifactId>poc-test-containers</artifactId>
+  <artifactId>poc-testcontainers</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
